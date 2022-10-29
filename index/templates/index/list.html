@@ -1,0 +1,35 @@
+{% extends 'base.html' %} 
+{% block title %}spencyclopellia{% endblock %}
+
+<!-- css -->
+{% block style %}
+<style>
+
+</style>
+{% endblock style %}
+
+<!-- js -->
+{% block script %}
+<script>
+    $(function(){
+        $('.answer').hide();
+
+        $('.spellList').on('click', function(){
+            $('.answer').not($('.'+$(this).attr('id'))).hide();
+            $('.'+$(this).attr('id')).show();
+        });
+    });
+</script>
+{% endblock script %}
+
+<!-- html -->
+{% block content %}
+<div class="main">
+
+spencyclopellia
+{% for language in language_list%}
+    {{language.name}}
+{% endfor %}
+
+</div>
+{% endblock content %}
