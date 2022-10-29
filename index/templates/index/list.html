@@ -40,8 +40,10 @@
     .spell{
         padding: 20px 0;
     }
-    .spellDetail{
+    .example{
         padding: 20px;
+        border: solid 1px #fff;
+        margin-bottom: 30px;
     }
 
 </style>
@@ -63,32 +65,38 @@
 
     <div id="index">
         <div class="alphabet">
-            <p class="fontAccent">A | B | C | D | E | F | G | H | I | J | K | L | M | N | O | P | Q | R | S | T | U | V | W | X | Y | Z</p>
+            <p class="fontAccent colorNav">A | B | C | D | E | F | G | H | I | J | K | L | M | N | O | P | Q | R | S | T | U | V | W | X | Y | Z</p>
         </div>
         <p><br></p>
         <div class="category">
-            <button type="button" class="btn btn-outline-light"><i class="bi bi-caret-down-fill"></i> Add</button>
-            <div class="topic">
-                {% for topic in topic_list%}
-                    <p>- {{topic.name}}<br>- {{topic.name_ja}}</p>
-                {% endfor %}
-                <button type="button" class="btn btn-outline-light"><i class="bi bi-caret-right-fill"></i> Python</button>
-                <button type="button" class="btn btn-outline-light"><i class="bi bi-caret-right-fill"></i> math</button>
-                
-                <div class="spell">
-                    {% for spell in spell_list %}
-                    <button type="button" id="{{spell.id}}" class="spellList btn btn-outline-light"><i class="bi bi-caret-right"></i> {{spell.name}}</button><br>
-                    
-                    <div class="{{spell.id}} spellDetail">
-                        <p>{{spell.example_in}}</p>
-                        <p>{{spell.example_out}}</p>
-                        <p>{{spell.reference}}</p>
-                    </div>
-                    
+            {% for category in category_list %}
+                <button type="button" id="category_{{category.id}}" class="categoryList btn btn-outline-light"><i class="bi bi-caret-down-fill"></i> {{category.name}}</button>
+                <div class="topic category_{{category.id}} categoryDetail">
+                    {% for spell in category.spell_set.all %}
+                        <button type="button" class="btn btn-outline-secondary"><i class="bi bi-caret-right-fill"></i> {{spell.language}}</button>
+                        <button type="button" class="btn btn-outline-secondary"><i class="bi bi-caret-right-fill"></i> {{spell.library}}</button>
+                        <div class="spell">
+                            <button type="button" id="spell_{{spell.id}}" class="spellList btn btn-outline-light"><i class="bi bi-caret-right"></i> {{spell.name}}</button><br>
+                            <p></p>
+                            <div class="spell_{{spell.id}} spellDetail">
+                                <p>- {{spell.forwhat}}<br>- {{spell.forwhat_ja}}</p>
+                                <p class="fontAccent colorNav">IN:</p>
+                                <div class="example">
+                                    <code style="color:#fff;">{{spell.example_in | linebreaksbr  }}</code>
+                                </div>
+                                <p class="fontAccent colorNav">OUT:</p>
+                                <div class="example">
+                                    <code style="color:#fff;">{{spell.example_out | linebreaksbr  }}</code>
+                                </div>
+                                <p class="fontAccent colorNav">reference:</p>
+                                <div class="example">
+                                    <code style="color:#fff;">{{spell.reference | safe  }}</code>
+                                </div>
+                            </div>
+                        </div>
                     {% endfor %}
                 </div>
-            </div>
-            
+            {% endfor %}
         </div>
             {% for language in language_list%}
                 {{language.name}}
@@ -107,11 +115,16 @@
 
 <script>
     $(function(){
-        $('.spellDetail').hide();
+        $('.categoryDetail').hide();
+        $('.categoryList').on('click', function(){
+            $('.categoryDetail').not($('.'+$(this).attr('id'))).hide();
+            $('.'+$(this).attr('id')).show();
 
-        $('.spellList').on('click', function(){
+            $('.spellDetail').hide();
+            $('.spellList').on('click', function(){
             $('.spellDetail').not($('.'+$(this).attr('id'))).hide();
             $('.'+$(this).attr('id')).show();
+        });
         });
     });
 </script>

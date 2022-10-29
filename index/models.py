@@ -47,11 +47,12 @@ class Library(models.Model):
 
 class Spell(models.Model):
     category = models.ManyToManyField(Category)
-    topic = models.ManyToManyField(Topic)
     language = models.ManyToManyField(Language)
     library = models.ManyToManyField(Library)
     name = models.CharField(max_length=100)
     color = models.CharField(max_length=7, default="#303967")
+    forwhat = models.TextField(default="None")
+    forwhat_ja = models.TextField(default="None")
     example_in = models.TextField(default="None")
     example_out = models.TextField(default="None")
     reference = models.TextField(default="None")
