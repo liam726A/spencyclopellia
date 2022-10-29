@@ -12,7 +12,9 @@
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
     <link href="https://fonts.googleapis.com/css2?family=Ubuntu:wght@400;700&display=swap" rel="stylesheet">
-
+    <!-- jQuery -->
+    <script src="https://code.jquery.com/jquery-3.6.1.min.js" integrity="sha256-o88AwQnZB+VDvE9tvIXrMQaPlFFSUTR+nldQm1LuPXQ=" crossorigin="anonymous"></script>
+    
     <style>
             .colorMain{
                 color: #303967;
@@ -40,20 +42,17 @@
                 font-family: 'Ubuntu', sans-serif;
                 font-weight: none;
             }
-            .main{
-                padding: 20px;
-            }
     </style>
 
     <!-- css -->
     {% block style %}{% endblock style %}
-    
-    <!-- js -->
-    <script src="https://code.jquery.com/jquery-3.6.1.min.js" integrity="sha256-o88AwQnZB+VDvE9tvIXrMQaPlFFSUTR+nldQm1LuPXQ=" crossorigin="anonymous"></script>
-    {% block script %}{% endblock script %}
 </head>
 
 <body>
+    <!-- html -->
     {% block content %}{% endblock content %}
+
+    <!-- js -->
+    {% block script %}{% endblock script %}
 </body>
 
