@@ -23,11 +23,14 @@ class Topic(models.Model):
 
 class Language(models.Model):
     name = models.CharField(max_length=100)
+    title = models.CharField(max_length=100, default="Title")
+    ext = models.CharField(max_length=100, default=".ext")
     text = models.TextField()
     color = models.CharField(max_length=7, default="#303967")
     page_hp = models.CharField(max_length=200)
     page_doc = models.CharField(max_length=200)
     page_github = models.CharField(max_length=200)
+    page_download = models.CharField(max_length=200, default="download")
     explanation = models.TextField(default="None")
     
     def __str__(self):
@@ -35,6 +38,7 @@ class Language(models.Model):
 
 class Library(models.Model):
     language = models.ManyToManyField(Language)
+    language_name = models.CharField(max_length=100, default="language_name")
     name = models.CharField(max_length=100)
     text = models.TextField()
     color = models.CharField(max_length=7, default="#303967")
@@ -44,7 +48,7 @@ class Library(models.Model):
     explanation = models.TextField(default="None")
     
     def __str__(self):
-        return self.name
+        return self.explanation
 
 class Spell(models.Model):
     name = models.CharField(max_length=100)
@@ -52,6 +56,7 @@ class Spell(models.Model):
     category = models.ManyToManyField(Category)
     language = models.ManyToManyField(Language)
     language_name = models.CharField(max_length=100, default="language_name")
+    library = models.ManyToManyField(Library)
     library_name = models.CharField(max_length=100, default="library_name")
     library_hp = models.CharField(max_length=100, default="library_hp")
     library_github = models.CharField(max_length=100, default="library_github")
