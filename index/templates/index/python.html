@@ -1,32 +1,15 @@
 {% extends 'base.html' %} 
-{% block title %}spencyclopellia{% endblock %}
+{% block title %}python - spencyclopellia{% endblock %}
 
 <!-- css -->
 {% block style %}
 <style>
-    .fontIndex{
-        font-family: 'Ubuntu', sans-serif;
-        font-weight: bold;
-        font-size: 17px;
-        margin-top: 30px;
-        color: #a0d8ef;
+    #cover{
+        background-color: #f8e58c;
+        height: 250px;
+        position:relative;
     }
 
-    #cover{
-        background-color: #fff;
-        height: 100vh;
-    }
-    .title{
-        position: relative;
-        background: #a0d8ef;
-        height: 100vh;
-        display: flex;
-        align-items: center;
-        color: #595857;
-    }
-    .title h1{
-        margin: 0 auto;
-    }
     canvas{
         position: absolute;
         bottom: 0;
@@ -34,6 +17,13 @@
         width: 100%;
     }
     
+    .fontIndex{
+        font-family: 'Ubuntu', sans-serif;
+        font-weight: bold;
+        font-size: 17px;
+        margin-top: 30px;
+        color: #f8e58c;
+    }
     #index{
         background-color: #303967;
         color: #fff;
@@ -45,8 +35,8 @@
     .alphabet{
         text-align: center;
     }
-    .topic{
-        padding: 20px;
+    .spellDetail{
+        padding: 10px 20px;
     }
     .spell button{
         margin: 5px 3px;
@@ -56,13 +46,13 @@
         font-size: 120%;
         font-weight: bold;
         color: #303967;
-        background: #a0d8ef;
+        background: #f8e58c;
         border-radius: 10px;
         margin-bottom: 20px;
     }
     .example{
         padding: 20px;
-        border: solid 2px #a0d8ef;
+        border: solid 2px #f8e58c;
         border-radius: 10px;
         margin-bottom: 30px;
     }
@@ -72,7 +62,6 @@
     .reference a{
         color: #fff;
     }
-
 </style>
 {% endblock style %}
 
@@ -82,9 +71,6 @@
 <div id="main">
 
     <div id="cover">
-        <div class="title">
-            <h1 class="fontAccent">spencyclopellia<br><br><br></h1>
-        </div>
         <div class="wave">
             <canvas id="waveCanvas"></canvas>
         </div>
@@ -92,49 +78,33 @@
 
     <div id="index">
         <div class="alphabet">
-            <p class="fontAccent colorNav">A | B | C | D | E | F | G | H | I | J | K | L | M | N | O | P | Q | R | S | T | U | V | W | X | Y | Z</p>
+            <p class="fontAccent colorNav">Python</p>
         </div>
         <p><br></p>
-        <div class="category">
-            {% for category in category_list %}
-                <button type="button" id="category_{{category.id}}" class="categoryList btn btn-outline-light"><i class="bi bi-caret-down-fill"></i> {{category.name}}</button>
-                <div class="topic category_{{category.id}} categoryDetail">
-                    {% for spell in category.spell_set.all %}
-                        <div class="spell">
-                            <button type="button" id="spell_{{spell.id}}" class="spellList btn btn-outline-light"><i class="bi bi-caret-right"></i> {{spell.forwhat}}</button>
-                            <button type="button" class="btn btn-secondary" onclick="location.href='/{{spell.language_name}}'"><i class="bi bi-caret-right-fill"></i> {{spell.language_name}}</button><br>
-                            <div class="spell_{{spell.id}} spellDetail">
-                                <p></p>
-                                <button type="button" class="btn btn-light" onclick="window.open('{{spell.library_hp}}')"><i class="bi bi-magic"></i> <span style="font-weight:bold;">{{spell.library_name}}</span></button>
-                                <button type="button" class="btn btn-secondary" onclick="window.open('{{spell.library_github}}')"><i class="bi bi-github"></i></button>
-                                <div class="name">
-                                    {{spell.name | linebreaksbr  }}
-                                </div>
-                                <p>　- {{spell.forwhat}}<br>　- {{spell.forwhat_ja}}</p>
-                                <p class="fontIndex">Example:</p>
-                                <div class="example">
-                                    <code style="color:#fff;">{{spell.example_in | linebreaksbr  }}</code>
-                                    <br><br>
-                                    <p>>></p>
-                                    <code style="color:#fff;">{{spell.example_out | linebreaksbr  }}</code>
-                                </div>
-                                <p class="fontIndex">Reference:</p>
-                                <div class="reference">{{spell.reference | linebreaksbr | urlize}}</div>
-                            </div>
-                        </div>
-                    {% endfor %}
+        <div class="spell">
+            {% for spell in spell_list %}
+                <button type="button" id="spell_{{spell.id}}" class="spellList btn btn-outline-light"><i class="bi bi-caret-right"></i> {{spell.forwhat}}</button>
+                <div class="spell_{{spell.id}} spellDetail">
+                    <p></p>
+                    <button type="button" class="btn btn-light" onclick="window.open('{{spell.library_hp}}')"><i class="bi bi-magic"></i> <span style="font-weight:bold;">{{spell.library_name}}</span></button>
+                    <button type="button" class="btn btn-secondary" onclick="window.open('{{spell.library_github}}')"><i class="bi bi-github"></i></button>
+                    <div class="name">
+                        {{spell.name | linebreaksbr  }}
+                    </div>
+                    <p>　- {{spell.forwhat}}<br>　- {{spell.forwhat_ja}}</p>
+                    <p class="fontIndex">Example:</p>
+                    <div class="example">
+                        <code style="color:#fff;">{{spell.example_in | linebreaksbr  }}</code>
+                        <br><br>
+                        <p>>></p>
+                        <code style="color:#fff;">{{spell.example_out | linebreaksbr  }}</code>
+                    </div>
+                    <p class="fontIndex">Reference:</p>
+                    <div class="reference">{{spell.reference | linebreaksbr | urlize}}</div>
                 </div>
             {% endfor %}
         </div>
-
-        <p><br></p>
-        <div class="language">
-            {% for language in language_list %}
-                <button type="button" class="btn btn-outline-light" onclick="location.href='/{{language.name}}'"><i class="bi bi-caret-right-fill"></i> {{language.name}}</button>
-            {% endfor %}
-        </div>
     </div>
-</div>
 {% endblock content %}
 
 
@@ -143,16 +113,10 @@
 
 <script>
     $(function(){
-        $('.categoryDetail').hide();
-        $('.categoryList').on('click', function(){
-            $('.categoryDetail').not($('.'+$(this).attr('id'))).hide();
+        $('.spellDetail').hide();
+        $('.spellList').on('click', function(){
+            $('.spellDetail').not($('.'+$(this).attr('id'))).hide();
             $('.'+$(this).attr('id')).show();
-
-            $('.spellDetail').hide();
-            $('.spellList').on('click', function(){
-                $('.spellDetail').not($('.'+$(this).attr('id'))).hide();
-                $('.'+$(this).attr('id')).show();
-            });
         });
     });
 </script>

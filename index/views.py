@@ -17,5 +17,14 @@ def index_view(request):
                                                 'spell_list': spell_list
                                                 })
 
+def python_view(request):
+    category_list = Category.objects.all()
+    library_list = Library.objects.all()
+    spell_list = Spell.objects.filter(language_name__iexact='python')
+    return render(request, 'index/python.html', {'category_list': category_list, \
+                                                'library_list': library_list, \
+                                                'spell_list': spell_list
+                                                })
+
 
 
