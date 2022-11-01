@@ -93,3 +93,14 @@ def linux_view(request):
                                                 'library_list': library_list, \
                                                 'spell_list': spell_list
                                                 })
+
+def nodejs_view(request):
+    category_list = Category.objects.all()
+    language_list = Language.objects.filter(name__iexact='nodejs')
+    library_list = Library.objects.filter(language_name__iexact='nodejs')
+    spell_list = Spell.objects.filter(language_name__iexact='nodejs').order_by('forwhat')
+    return render(request, 'index/nodejs.html', {'category_list': category_list, \
+                                                'language_list': language_list, \
+                                                'library_list': library_list, \
+                                                'spell_list': spell_list
+                                                })
